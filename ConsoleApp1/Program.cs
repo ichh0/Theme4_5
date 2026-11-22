@@ -1,49 +1,133 @@
 ﻿using System;
 
-class StringComparisonDemo
+class LoginDemo
 {
     static void Main()
     {
-        string s1 = "Hello";
-        string s2 = "Hello";
-        string s3 = "hello";
-        string s4 = "World";
+        string[] logins = { "admin", "user", "guest", "hacker" };
+        string[] passwords = { "12345", "qwerty", "pass", "letmein" };
 
-        Console.WriteLine("=== Строки ===");
-        Console.WriteLine($"s1 = \"{s1}\"");
-        Console.WriteLine($"s2 = \"{s2}\"");
-        Console.WriteLine($"s3 = \"{s3}\"");
-        Console.WriteLine($"s4 = \"{s4}\"");
+        Console.WriteLine("Система входа");
+        Console.WriteLine();
 
-        Console.WriteLine("\n=== Compare() ===");
-        Console.WriteLine($"Compare(s1, s2) = {string.Compare(s1, s2)}");
-        Console.WriteLine($"Compare(s1, s4) = {string.Compare(s1, s4)}");
-        Console.WriteLine($"Compare(s4, s1) = {string.Compare(s4, s1)}");
-        Console.WriteLine($"Compare(s1, s3) = {string.Compare(s1, s3)}");
+        int attempts = 3;
+        int userIndex = -1;
 
-        Console.WriteLine("\n=== CompareOrdinal() ===");
-        Console.WriteLine($"CompareOrdinal(s1, s2) = {string.CompareOrdinal(s1, s2)}");
-        Console.WriteLine($"CompareOrdinal(s1, s3) = {string.CompareOrdinal(s1, s3)}");
-        Console.WriteLine($"CompareOrdinal(s1, s4) = {string.CompareOrdinal(s1, s4)}");
+        while (attempts > 0 && userIndex == -1)
+        {
+            Console.Write($"Логин (попыток: {attempts}): ");
+            string login = Console.ReadLine() ?? "";
 
-        Console.WriteLine("\n=== Equals() ===");
-        Console.WriteLine($"s1.Equals(s2) = {s1.Equals(s2)}");
-        Console.WriteLine($"s1.Equals(s3) = {s1.Equals(s3)}");
-        Console.WriteLine($"s1.Equals(s3, StringComparison.OrdinalIgnoreCase) = {s1.Equals(s3, StringComparison.OrdinalIgnoreCase)}");
+            for (int i = 0; i < logins.Length; i++)
+            {
+                if (string.Equals(logins[i], login, StringComparison.OrdinalIgnoreCase))
+                {
+                    userIndex = i;
+                    break;
+                }
+            }
 
-        Console.WriteLine("\n=== Операторы == и != ===");
-        Console.WriteLine($"s1 == s2: {s1 == s2}");
-        Console.WriteLine($"s1 != s3: {s1 != s3}");
-        Console.WriteLine($"s1 == s3: {s1 == s3}");
+            if (userIndex == -1)
+            {
+                Console.WriteLine("Пользователь не найден.");
+                attempts--;
+            }
+        }
 
-        Console.WriteLine("\n=== IndexOf() ===");
-        Console.WriteLine($"s1.IndexOf('l') = {s1.IndexOf('l')}");
-        Console.WriteLine($"s1.IndexOf(\"lo\") = {s1.IndexOf("lo")}");
-        Console.WriteLine($"s1.IndexOf(\"xyz\") = {s1.IndexOf("xyz")}");
+        if (userIndex == -1)
+        {
+            Console.WriteLine("Попытки исчерпаны.");
+            return;
+        }
 
-        Console.WriteLine("\n=== Contains() ===");
-        Console.WriteLine($"s1.Contains(\"ell\") = {s1.Contains("ell")}");
-        Console.WriteLine($"s1.Contains(\"xyz\") = {s1.Contains("xyz")}");
-        Console.WriteLine($"s1.Contains('H') = {s1.Contains('H')}");
+        bool authenticated = false;
+        while (attempts > 0 && !authenticated)
+        {
+            Console.Write("Пароль: ");
+            string password = Console.ReadLine() ?? "";
+
+            if (string.Equals(passwords[userIndex], password, StringComparison.Ordinal))
+            {
+                authenticated = true;
+                Console.WriteLine($"Вход выполнен: {logins[userIndex]}");
+            }
+            else
+            {
+                attempts--;
+                if (attempts > 0)
+                {
+                    Console.WriteLine($"Неверный пароль. Осталось попыток: {attempts}.");
+                    if (passwords[userIndex].Length == password.Length)
+                    {
+                        Console.WriteLine("Длина совпадает, проверьте регистр.");
+                    }
+                }
+            }
+        }
+
+        if (!authenticated)
+        {
+            Console.WriteLine("Доступ заблокирован.");
+            return;
+        }
+
+        bool running = true;
+        while (running)
+        {
+            Console.WriteLine();
+            Console.WriteLine("1 - проверка палиндрома");
+            Console.WriteLine("2 - сравнение строк");
+            Console.WriteLine("0 - выход");
+            Console.Write("Выбор: ");
+            string choice = Console.ReadLine() ?? "";
+
+            if (choice == "1")
+            {
+                Console.Write("Строка: ");
+                string s = Console.ReadLine() ?? "";
+                Console.WriteLine(IsPalindrome(s) ? "Палиндром." : "Не палиндром.");
+            }
+            else if (choice == "2")
+            {
+                Console.Write("Строка A: ");
+                string a = Console.ReadLine() ?? "";
+                Console.Write("Строка B: ");
+                string b = Console.ReadLine() ?? "";
+
+                Console.WriteLine($"Compare:         {string.Compare(a, b)}");
+                Console.WriteLine($"CompareOrdinal:  {string.CompareOrdinal(a, b)}");
+                Console.WriteLine($"Equals:          {a.Equals(b)}");
+                Console.WriteLine($"Equals (ignore): {a.Equals(b, StringComparison.OrdinalIgnoreCase)}");
+                Console.WriteLine($"==:              {a == b}");
+            }
+            else if (choice == "0")
+            {
+                running = false;
+                Console.WriteLine("Сеанс завершён.");
+            }
+            else
+            {
+                Console.WriteLine("Неизвестная команда.");
+            }
+        }
+    }
+
+    static bool IsPalindrome(string s)
+    {
+        s = s.ToLower().Replace(" ", "");
+        int left = 0;
+        int right = s.Length - 1;
+
+        while (left < right)
+        {
+            if (s[left] != s[right])
+            {
+                return false;
+            }
+            left++;
+            right--;
+        }
+
+        return true;
     }
 }
