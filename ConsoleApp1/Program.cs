@@ -1,33 +1,49 @@
 ﻿using System;
 
-namespace StringComparisonDemo
+class StringComparisonDemo
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
-        {
-            string str1 = "Привет";
-            string str2 = "привет";
-            string str3 = "Привет";
+        string s1 = "Hello";
+        string s2 = "Hello";
+        string s3 = "hello";
+        string s4 = "World";
 
-            Console.WriteLine("--- Операторы == и != ---");
-            Console.WriteLine($"str1 == str3: {str1 == str3}"); // True
-            Console.WriteLine($"str1 != str2: {str1 != str2}"); // True
+        Console.WriteLine("=== Строки ===");
+        Console.WriteLine($"s1 = \"{s1}\"");
+        Console.WriteLine($"s2 = \"{s2}\"");
+        Console.WriteLine($"s3 = \"{s3}\"");
+        Console.WriteLine($"s4 = \"{s4}\"");
 
-            Console.WriteLine("\n--- Метод Equals() ---");
-            Console.WriteLine($"str1.Equals(str2): {str1.Equals(str2)}"); // False
-            Console.WriteLine($"str1.Equals(str2, StringComparison.OrdinalIgnoreCase): {str1.Equals(str2, StringComparison.OrdinalIgnoreCase)}"); // True
+        Console.WriteLine("\n=== Compare() ===");
+        Console.WriteLine($"Compare(s1, s2) = {string.Compare(s1, s2)}");
+        Console.WriteLine($"Compare(s1, s4) = {string.Compare(s1, s4)}");
+        Console.WriteLine($"Compare(s4, s1) = {string.Compare(s4, s1)}");
+        Console.WriteLine($"Compare(s1, s3) = {string.Compare(s1, s3)}");
 
-            Console.WriteLine("\n--- Метод Compare() ---");
-            Console.WriteLine($"string.Compare(str1, str3): {string.Compare(str1, str3)}"); // 0
-            Console.WriteLine($"string.Compare(str1, str2): {string.Compare(str1, str2)}");
+        Console.WriteLine("\n=== CompareOrdinal() ===");
+        Console.WriteLine($"CompareOrdinal(s1, s2) = {string.CompareOrdinal(s1, s2)}");
+        Console.WriteLine($"CompareOrdinal(s1, s3) = {string.CompareOrdinal(s1, s3)}");
+        Console.WriteLine($"CompareOrdinal(s1, s4) = {string.CompareOrdinal(s1, s4)}");
 
-            Console.WriteLine("\n--- Метод CompareOrdinal() ---");
-            Console.WriteLine($"string.CompareOrdinal(str1, str2): {string.CompareOrdinal(str1, str2)}");
+        Console.WriteLine("\n=== Equals() ===");
+        Console.WriteLine($"s1.Equals(s2) = {s1.Equals(s2)}");
+        Console.WriteLine($"s1.Equals(s3) = {s1.Equals(s3)}");
+        Console.WriteLine($"s1.Equals(s3, StringComparison.OrdinalIgnoreCase) = {s1.Equals(s3, StringComparison.OrdinalIgnoreCase)}");
 
-            Console.WriteLine("\n--- Методы IndexOf() и Contains() ---");
-            Console.WriteLine($"str1.IndexOf(\"вет\"): {str1.IndexOf("вет")}"); // 3
-            Console.WriteLine($"str1.Contains(\"При\"): {str1.Contains("При")}"); // True
-        }
+        Console.WriteLine("\n=== Операторы == и != ===");
+        Console.WriteLine($"s1 == s2: {s1 == s2}");
+        Console.WriteLine($"s1 != s3: {s1 != s3}");
+        Console.WriteLine($"s1 == s3: {s1 == s3}");
+
+        Console.WriteLine("\n=== IndexOf() ===");
+        Console.WriteLine($"s1.IndexOf('l') = {s1.IndexOf('l')}");
+        Console.WriteLine($"s1.IndexOf(\"lo\") = {s1.IndexOf("lo")}");
+        Console.WriteLine($"s1.IndexOf(\"xyz\") = {s1.IndexOf("xyz")}");
+
+        Console.WriteLine("\n=== Contains() ===");
+        Console.WriteLine($"s1.Contains(\"ell\") = {s1.Contains("ell")}");
+        Console.WriteLine($"s1.Contains(\"xyz\") = {s1.Contains("xyz")}");
+        Console.WriteLine($"s1.Contains('H') = {s1.Contains('H')}");
     }
 }

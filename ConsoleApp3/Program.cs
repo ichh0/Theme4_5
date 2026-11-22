@@ -19,18 +19,15 @@ namespace ExceptionHandlingDemo
             }
             catch (DivideByZeroException ex)
             {
-                Console.WriteLine("Ошибка: Деление на ноль невозможно.");
-                Console.WriteLine($"Сообщение: {ex.Message}");
-                Console.WriteLine($"Метод, где произошла ошибка: {ex.TargetSite}");
+                Console.WriteLine($"Деление на ноль: {ex.Message} (метод: {ex.TargetSite})");
             }
             catch (FormatException ex)
             {
-                Console.WriteLine("Ошибка: Введено не число.");
-                Console.WriteLine($"Сообщение: {ex.Message}");
+                Console.WriteLine($"Введено не число: {ex.Message}");
             }
             finally
             {
-                Console.WriteLine("Блок finally выполнен. Завершение работы программы.");
+                Console.WriteLine("Работа программы завершена.");
             }
         }
     }
